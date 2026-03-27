@@ -198,35 +198,68 @@ section{padding:120px 60px;position:relative;}
 .m-ai-tag{font-size:10px;color:var(--amber);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
 .m-ai-text{font-size:12px;color:var(--ink-20);line-height:1.6;}
 
-/* Phone mockup */
-.phone-mockup{position:relative;width:250px;margin:0 auto;}
-.phone-frame{background:#f5f4f0;border-radius:36px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(200,120,26,0.15);position:relative;overflow:hidden;}
-.phone-notch{width:100px;height:24px;background:#1C1A17;border-radius:0 0 16px 16px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
-.phone-screen{background:#FFFFFF;border-radius:26px;overflow:hidden;position:relative;padding-top:6px;}
-.ps-statusbar{min-height:38px;padding:10px 16px 6px;background:#FAFAF8;display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:600;color:#1C1A17;box-sizing:border-box;}
-.ps-header{padding:4px 16px 10px;background:#FAFAF8;border-bottom:1px solid #EEECE6;}
-.ps-header-title{font-family:var(--fd);font-size:17px;font-weight:800;color:#1C1A17;letter-spacing:-0.02em;line-height:1.15;}
-.ps-header-sub{font-size:10px;color:#7A766D;margin-top:3px;}
-.ps-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px;background:#FAFAF8;}
-.ps-card{background:#FFFFFF;border-radius:12px;padding:10px 11px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border:1px solid #EEECE6;}
-.ps-card-label{font-size:8px;color:#7A766D;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;}
-.ps-card-val{font-family:var(--fn);font-size:16px;font-weight:700;color:#1C1A17;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.ps-card-sub{font-size:9px;margin-top:1px;}
-.ps-device-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F2EFE8;}
-.ps-device-item:last-child{border-bottom:none;}
-.ps-dev-info{display:flex;align-items:center;gap:8px;}
-.ps-dev-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;}
-.ps-dev-name{font-size:11px;font-weight:500;color:#1C1A17;}
-.ps-dev-state{font-size:9px;color:#7A766D;}
-.ps-mini-toggle{width:36px;height:20px;border-radius:10px;position:relative;}
-.ps-mini-toggle.on{background:#C8781A;}
-.ps-mini-toggle.off{background:#DDD9D2;}
-.ps-mini-toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:white;top:2px;box-shadow:0 1px 2px rgba(0,0,0,0.15);}
-.ps-mini-toggle.on::after{left:18px;}
-.ps-mini-toggle.off::after{left:2px;}
-.ps-bottombar{height:42px;background:#FAFAF8;border-top:1px solid #EEECE6;display:flex;align-items:center;justify-content:space-around;padding:0 12px;}
-.ps-tab{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:8px;color:#7A766D;}
-.ps-tab.active{color:#C8781A;}
+/* Phone mockup — same tokens as desktop mockup (.mockup-shell / .m-card / .m-toggle) */
+.phone-mockup{position:relative;width:268px;margin:0 auto;}
+.phone-frame{background:linear-gradient(135deg,#141210 0%,#181510 100%);border-radius:36px;padding:11px;box-shadow:0 20px 50px rgba(0,0,0,0.55),0 0 0 1px rgba(200,120,26,0.15);position:relative;overflow:hidden;}
+.phone-frame::before{content:'';position:absolute;top:11px;left:11px;right:11px;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:0.35;border-radius:26px 26px 0 0;pointer-events:none;z-index:3;}
+.phone-notch{width:100px;height:22px;background:#141210;border-radius:0 0 14px 14px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
+.phone-screen{background:linear-gradient(135deg,#141210 0%,#181510 100%);border-radius:26px;overflow:hidden;position:relative;padding-top:4px;}
+.ps-statusbar{min-height:34px;padding:8px 14px 4px;background:transparent;display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:600;color:var(--cream);box-sizing:border-box;opacity:0.95;}
+.ps-head-dark{padding:0 12px 8px;background:transparent;border-bottom:0.5px solid rgba(200,120,26,0.1);}
+.ps-brand-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.ps-logo{font-family:var(--fd);font-size:15px;font-weight:800;letter-spacing:-0.02em;color:var(--cream);line-height:1.1;}
+.ps-logo span{color:var(--amber);}
+.ps-loc{font-size:9px;color:var(--ink-40);margin-top:3px;line-height:1.2;}
+.ps-sparkle{width:28px;height:28px;border-radius:10px;background:radial-gradient(circle at 30% 30%,rgba(200,120,26,0.25),transparent 70%);border:1px solid rgba(200,120,26,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--amber);flex-shrink:0;}
+.ps-pill-ok{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:4px 10px;border-radius:100px;background:rgba(45,107,74,0.15);border:0.5px solid rgba(45,107,74,0.35);font-size:8px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--pine-lt);}
+.ps-body{padding:8px 10px 6px;display:flex;flex-direction:column;gap:7px;background:transparent;max-height:400px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(200,120,26,0.35) transparent;}
+.ps-metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.ps-card-dark{background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border-radius:11px;padding:8px 9px;border:0.5px solid rgba(200,120,26,0.08);}
+.ps-card-label{font-size:7px;color:var(--ink-40);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;}
+.ps-card-val{font-family:var(--fn);font-size:15px;font-weight:700;color:var(--cream);font-variant-numeric:tabular-nums;}
+.ps-card-val.gold{color:var(--amber);}
+.ps-card-sub{font-size:8px;margin-top:2px;}
+.ps-card-sub.down{color:var(--pine);}
+.ps-card-sub.down-warn{color:var(--amber);}
+.ps-ai-card{background:rgba(200,120,26,0.08);border:0.5px solid rgba(200,120,26,0.22);border-radius:12px;padding:8px 9px;}
+.ps-ai-title{font-size:8px;font-weight:700;color:var(--amber);letter-spacing:0.06em;margin-bottom:5px;display:flex;align-items:center;gap:4px;}
+.ps-ai-text{font-size:9px;color:var(--ink-20);line-height:1.45;}
+.ps-btn-approve{margin-top:7px;width:100%;padding:6px 10px;border-radius:8px;background:var(--amber);border:none;font-size:9px;font-weight:700;color:#fff;cursor:default;font-family:var(--fb);}
+.ps-btn-approve:hover{filter:brightness(1.06);}
+.ps-quick-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px;}
+.ps-pill{display:inline-flex;align-items:center;gap:3px;padding:4px 7px;border-radius:100px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(200,120,26,0.12);font-size:7px;color:var(--ink-40);}
+.ps-mini-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.ps-mini-card{background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border-radius:10px;padding:7px 8px;border:0.5px solid rgba(200,120,26,0.08);}
+.ps-mini-card .lbl{font-size:7px;color:var(--ink-40);text-transform:uppercase;letter-spacing:0.06em;}
+.ps-mini-card .big{font-size:13px;font-weight:700;color:var(--cream);margin-top:2px;}
+.ps-mini-card .tag{font-size:7px;margin-top:2px;color:var(--pine);}
+.ps-msg-row{margin-top:2px;}
+.ps-msg-title{font-size:8px;font-weight:600;color:var(--cream);margin-bottom:4px;}
+.ps-msg-title span{color:var(--amber);}
+.ps-msg-sub{font-size:7px;color:var(--ink-40);margin-bottom:6px;line-height:1.3;}
+.ps-apps{display:flex;gap:5px;justify-content:space-between;}
+.ps-app{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:6px;color:var(--ink-40);}
+.ps-app-ico{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border:0.5px solid rgba(200,120,26,0.1);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.ps-rooms{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;margin:2px 0 4px;-webkit-overflow-scrolling:touch;}
+.ps-rooms::-webkit-scrollbar{display:none;}
+.ps-room-tab{padding:3px 8px;border-radius:6px;font-size:7px;font-weight:600;white-space:nowrap;color:var(--ink-40);background:transparent;border:1px solid transparent;}
+.ps-room-tab.on{background:rgba(200,120,26,0.12);color:var(--amber);border-color:rgba(200,120,26,0.2);}
+.ps-dev-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ps-device-card{background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border-radius:10px;padding:6px 7px;border:0.5px solid rgba(200,120,26,0.08);}
+.ps-device-card .dtop{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;}
+.ps-device-card .dico{font-size:12px;line-height:1;}
+.ps-device-card .dname{font-size:8px;font-weight:600;color:var(--ink-20);margin-top:2px;}
+.ps-device-card .dst{font-size:7px;color:var(--ink-40);margin-top:1px;line-height:1.2;}
+.ps-tog{width:30px;height:17px;border-radius:9px;position:relative;flex-shrink:0;cursor:pointer;transition:background 0.2s;}
+.ps-tog.on{background:var(--amber);}
+.ps-tog.off{background:var(--ink-60);}
+.ps-tog::after{content:'';position:absolute;width:13px;height:13px;border-radius:50%;background:#fff;top:2px;box-shadow:0 1px 2px rgba(0,0,0,0.25);transition:left 0.2s;}
+.ps-tog.on::after{left:15px;}
+.ps-tog.off::after{left:2px;}
+.ps-bottombar{height:40px;background:linear-gradient(180deg,rgba(24,21,16,0.92) 0%,#181510 100%);border-top:0.5px solid rgba(200,120,26,0.1);display:flex;align-items:center;justify-content:space-around;padding:0 6px;}
+.ps-tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:7px;color:var(--ink-40);}
+.ps-tab svg{color:currentColor;}
+.ps-tab.active{color:var(--amber);}
 
 /* ── FEATURES ── */
 #features{background:linear-gradient(180deg,var(--ink-80) 0%,#2A2722 100%);}
@@ -880,7 +913,7 @@ footer{background:linear-gradient(180deg,var(--ink-80) 0%,#252320 100%);padding:
         </div>
       </div>
 
-      <!-- Phone mockup -->
+      <!-- Phone mockup — same design tokens as desktop mockup -->
       <div class="phone-mockup reveal reveal-delay-3">
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -888,85 +921,111 @@ footer{background:linear-gradient(180deg,var(--ink-80) 0%,#252320 100%);padding:
             <div class="ps-statusbar">
               <span>9:41</span>
               <span style="display:flex;gap:4px;align-items:center;">
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 7h2v3H1zM5 5h2v5H5zM9 3h2v7H9zM13 1h0" stroke="#1C1A17" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><rect x="0.5" y="1" width="13" height="8" rx="1.5" stroke="#1C1A17" stroke-width="1"/><rect x="14" y="3.5" width="1.5" height="3" rx="0.5" fill="#1C1A17"/><rect x="2" y="2.5" width="9" height="5" rx="0.5" fill="#2D6B4A"/></svg>
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 7h2v3H1zM5 5h2v5H5zM9 3h2v7H9zM13 1h0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><rect x="0.5" y="1" width="13" height="8" rx="1.5" stroke="currentColor" stroke-width="1"/><rect x="14" y="3.5" width="1.5" height="3" rx="0.5" fill="currentColor"/><rect x="2" y="2.5" width="9" height="5" rx="0.5" fill="#2D6B4A"/></svg>
               </span>
             </div>
-            <div class="ps-header">
-              <div class="ps-header-title">Domind AI</div>
-              <div class="ps-header-sub">My home · 24 devices online</div>
+            <div class="ps-head-dark">
+              <div class="ps-brand-row">
+                <div>
+                  <div class="ps-logo">DOMIND <span>AI</span></div>
+                  <div class="ps-loc">Amsterdam · 18°C Cloudy</div>
+                  <div class="ps-pill-ok">● All systems running</div>
+                </div>
+                <div class="ps-sparkle" aria-hidden="true">✦</div>
+              </div>
             </div>
             <div class="ps-body">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-                <div class="ps-card">
-                  <div class="ps-card-label">Savings</div>
-                  <div class="ps-card-val" style="color:#C8781A;">$384</div>
-                  <div class="ps-card-sub" style="color:#2D6B4A;">↓ −31%</div>
+              <div class="ps-metric-grid">
+                <div class="ps-card-dark">
+                  <div class="ps-card-label">Savings / month</div>
+                  <div class="ps-card-val gold">$384</div>
+                  <div class="ps-card-sub down">↓ −31%</div>
                 </div>
-                <div class="ps-card">
+                <div class="ps-card-dark">
                   <div class="ps-card-label">Usage</div>
-                  <div class="ps-card-val">128<span style="font-size:12px;color:#7A766D;"> kWh</span></div>
-                  <div class="ps-card-sub" style="color:#C8781A;">↓ −18%</div>
+                  <div class="ps-card-val">128 <span style="font-size:10px;color:var(--ink-40);font-weight:500;">kWh</span></div>
+                  <div class="ps-card-sub down-warn">↓ −18%</div>
                 </div>
               </div>
-              <div class="ps-card">
-                <div class="ps-card-label">Devices</div>
-                <div class="ps-device-item">
-                  <div class="ps-dev-info">
-                    <div class="ps-dev-icon" style="background:#FBF0DE;">🌡️</div>
-                    <div>
-                      <div class="ps-dev-name">Thermostat</div>
-                      <div class="ps-dev-state">72°F · Auto</div>
-                    </div>
-                  </div>
-                  <div class="ps-mini-toggle on"></div>
+              <div class="ps-ai-card">
+                <div class="ps-ai-title">✦ Domind AI</div>
+                <p class="ps-ai-text">Tonight drops to 4°C. I'll preheat the living room to 21° by 6pm and lower bedroom heating at 11pm — saves ~€1.20.</p>
+                <button type="button" class="ps-btn-approve">Approve ✓</button>
+              </div>
+              <div class="ps-quick-row">
+                <span class="ps-pill">💬 Ask AI</span>
+                <span class="ps-pill">🌙 Night</span>
+                <span class="ps-pill">🚪 Away</span>
+                <span class="ps-pill">🎉 Guests</span>
+              </div>
+              <div class="ps-mini-row">
+                <div class="ps-mini-card">
+                  <div class="lbl">Today's usage</div>
+                  <div class="big">4.2 <span style="font-size:9px;color:var(--ink-40);font-weight:500;">kWh</span></div>
+                  <div class="tag">↓ 18%</div>
                 </div>
-                <div class="ps-device-item">
-                  <div class="ps-dev-info">
-                    <div class="ps-dev-icon" style="background:#FBF0DE;">💡</div>
-                    <div>
-                      <div class="ps-dev-name">Lights · Living room</div>
-                      <div class="ps-dev-state">80% · Warm</div>
-                    </div>
-                  </div>
-                  <div class="ps-mini-toggle on"></div>
-                </div>
-                <div class="ps-device-item">
-                  <div class="ps-dev-info">
-                    <div class="ps-dev-icon" style="background:#E8F5EF;">🔌</div>
-                    <div>
-                      <div class="ps-dev-name">Water heater</div>
-                      <div class="ps-dev-state">Standby · 11:30 PM</div>
-                    </div>
-                  </div>
-                  <div class="ps-mini-toggle off"></div>
+                <div class="ps-mini-card">
+                  <div class="lbl">Protection</div>
+                  <div class="big" style="font-size:11px;color:var(--pine);">All good</div>
+                  <div class="tag" style="color:var(--amber);">OK</div>
                 </div>
               </div>
-              <div class="ps-card" style="background:linear-gradient(135deg,#FFF8EE,#FFFFFF);border-color:#F5D9A8;padding:9px 10px;">
-                <div style="font-size:8px;font-weight:700;color:#C8781A;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">AI Tip</div>
-                <div style="font-size:11px;color:#46433C;line-height:1.45;">Moving the water heater to off-peak hours will save $18 this month.</div>
-                <div style="display:flex;gap:5px;margin-top:6px;">
-                  <div style="padding:4px 10px;background:#C8781A;border-radius:6px;font-size:9px;font-weight:600;color:#fff;">Apply</div>
-                  <div style="padding:4px 10px;border:1px solid #DDD9D2;border-radius:6px;font-size:9px;color:#7A766D;">Later</div>
+              <div class="ps-msg-row">
+                <div class="ps-msg-title">Control via messenger <span>✦</span></div>
+                <div class="ps-msg-sub">Send commands from your favorite app — works 24/7</div>
+                <div class="ps-apps">
+                  <div class="ps-app"><div class="ps-app-ico">💬</div>WhatsApp</div>
+                  <div class="ps-app"><div class="ps-app-ico">✈️</div>Telegram</div>
+                  <div class="ps-app"><div class="ps-app-ico">#</div>Slack</div>
+                  <div class="ps-app"><div class="ps-app-ico">🎙</div>Voice</div>
+                </div>
+              </div>
+              <div class="ps-rooms">
+                <span class="ps-room-tab on">All</span>
+                <span class="ps-room-tab">Living</span>
+                <span class="ps-room-tab">Bedroom</span>
+                <span class="ps-room-tab">Kitchen</span>
+              </div>
+              <div class="ps-dev-grid">
+                <div class="ps-device-card">
+                  <div class="dtop"><span class="dico">💡</span><div class="ps-tog on"></div></div>
+                  <div class="dname">Living Room</div>
+                  <div class="dst">On · 80%</div>
+                </div>
+                <div class="ps-device-card">
+                  <div class="dtop"><span class="dico">🌡️</span><div class="ps-tog on"></div></div>
+                  <div class="dname">Thermostat</div>
+                  <div class="dst">21°C → 19°C</div>
+                </div>
+                <div class="ps-device-card">
+                  <div class="dtop"><span class="dico">📷</span><div class="ps-tog on"></div></div>
+                  <div class="dname">Front Door</div>
+                  <div class="dst">Recording</div>
+                </div>
+                <div class="ps-device-card">
+                  <div class="dtop"><span class="dico">🔒</span><div class="ps-tog on"></div></div>
+                  <div class="dname">Smart Lock</div>
+                  <div class="dst">Locked</div>
                 </div>
               </div>
             </div>
             <div class="ps-bottombar">
               <div class="ps-tab active">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l6-5 6 5v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="6" y="10" width="4" height="3" rx="0.5" stroke="currentColor" stroke-width="1"/></svg>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l6-5 6 5v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="6" y="10" width="4" height="3" rx="0.5" stroke="currentColor" stroke-width="1"/></svg>
                 Home
               </div>
               <div class="ps-tab">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/></svg>
-                Devices
-              </div>
-              <div class="ps-tab">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v5l3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1"/></svg>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v5l3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1"/></svg>
                 Energy
               </div>
               <div class="ps-tab">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1"/><path d="M3 14c0-3 2.5-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-                Profile
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="5" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="3" r="1.5" fill="currentColor"/></svg>
+                Auto
+              </div>
+              <div class="ps-tab">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 12l3-3M10 6l3 3M6 10l4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Chat
               </div>
             </div>
           </div>
@@ -1380,7 +1439,7 @@ const t = document.getElementById('ticker');
 t.innerHTML += t.innerHTML;
 
 // Toggle interaction
-document.querySelectorAll('.m-toggle').forEach(toggle => {
+document.querySelectorAll('.m-toggle, .ps-tog').forEach(toggle => {
   toggle.addEventListener('click', () => {
     toggle.classList.toggle('on');
     toggle.classList.toggle('off');
