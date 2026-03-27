@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domind AI — Your home should run itself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1C1A17; --ink-80:#2E2B26; --ink-60:#46433C; --ink-40:#7A766D; --ink-20:#B8B3A9; --ink-10:#DDD9D2; --ink-05:#F2EFE8;
+  --amber:#C8781A; --amber-dk:#8F4E08; --amber-lt:#F5D9A8; --amber-bg:#FBF0DE; --amber-mid:#E8960A;
+  --brick:#B84B2B; --brick-dk:#7A2E14; --brick-lt:#F0C4B0; --brick-bg:#FAF0EB;
+  --concrete:#6B7480; --concrete-lt:#BDC5CE; --concrete-bg:#EDF0F3;
+  --pine:#2D6B4A; --pine-dk:#1A4230; --pine-lt:#A8D4BC; --pine-bg:#E8F5EF;
+  --cream:#FAF8F2; --white:#FFFFFF;
+  --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fn:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:var(--fb);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:background 0.3s,backdrop-filter 0.3s;}
+nav.scrolled{background:rgba(28,26,23,0.92);backdrop-filter:blur(16px);border-bottom:0.5px solid rgba(200,120,26,0.15);}
+.nav-logo{font-family:var(--fd);font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--cream);text-decoration:none;}
+.nav-logo span{color:var(--amber);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:13px;color:var(--ink-20);text-decoration:none;letter-spacing:0.03em;transition:color 0.2s;}
+.nav-links a:hover{color:var(--amber);}
+.nav-cta{background:var(--amber);color:#fff;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;transition:opacity 0.2s,transform 0.15s;border:none;cursor:pointer;font-family:var(--fb);}
+.nav-cta:hover{opacity:0.88;transform:translateY(-1px);}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+.hero-bg-photo{position:absolute;inset:0;background:url('hero-header.jpg') center/cover no-repeat;background-color:#1C1A17;z-index:0;}
+.hero-bg-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(28,26,23,0.5) 0%,rgba(28,26,23,0.68) 40%,rgba(28,26,23,0.92) 100%),radial-gradient(ellipse 90% 70% at 50% 20%,rgba(200,120,26,0.08) 0%,transparent 55%);}
+.hero-grid-bg{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(200,120,26,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(200,120,26,0.05) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 85% 75% at 50% 45%,black 25%,transparent 100%);opacity:0.85;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:var(--amber);opacity:0.06;filter:blur(80px);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse-glow 4s ease-in-out infinite;z-index:2;}
+.hero-content{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;width:100%;}
+@keyframes pulse-glow{0%,100%{opacity:0.04;transform:translate(-50%,-50%) scale(1);}50%{opacity:0.07;transform:translate(-50%,-50%) scale(1.1);}}
+.hero-tag{font-size:13px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:28px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;text-shadow:0 1px 12px rgba(0,0,0,0.5);}
+#hero h1{font-family:var(--fd);font-size:clamp(60px,9vw,120px);font-weight:800;line-height:0.88;letter-spacing:-0.035em;max-width:1000px;opacity:0;animation:fadeUp 0.8s 0.4s forwards;text-shadow:0 4px 32px rgba(0,0,0,0.7),0 1px 0 rgba(0,0,0,0.4);}
+#hero h1 .amber{color:var(--amber);text-shadow:0 4px 32px rgba(200,120,26,0.4),0 1px 0 rgba(0,0,0,0.4);}
+#hero h1 .dim{color:rgba(255,252,245,0.95);}
+.hero-sub{font-size:19px;font-weight:400;color:rgba(255,252,245,0.95);max-width:580px;line-height:1.7;margin-top:28px;opacity:0;animation:fadeUp 0.8s 0.6s forwards;text-shadow:0 2px 20px rgba(0,0,0,0.6);}
+.hero-actions{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
+.btn-hero{padding:16px 36px;border-radius:10px;font-family:var(--fb);font-size:15px;font-weight:500;cursor:pointer;border:none;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--amber);color:#fff;}
+.btn-primary:hover{background:var(--amber-mid);transform:translateY(-2px);}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid rgba(200,120,26,0.3);}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber);}
+
+/* Live counter bar */
+.hero-live{display:flex;gap:40px;margin-top:64px;opacity:0;animation:fadeUp 0.8s 1s forwards;flex-wrap:wrap;justify-content:center;}
+.live-stat{text-align:center;}
+.live-val{font-family:var(--fn);font-size:40px;font-weight:700;letter-spacing:-0.02em;color:var(--amber);font-variant-numeric:tabular-nums;text-shadow:0 2px 16px rgba(200,120,26,0.3);}
+.live-label{font-size:12px;color:var(--ink-20);margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,0.4);}
+
+/* scroll indicator */
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s 1.8s forwards;}
+.scroll-hint span{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-40);}
+.scroll-mouse{width:22px;height:34px;border:1.5px solid var(--ink-60);border-radius:11px;position:relative;}
+.scroll-mouse::after{content:'';position:absolute;width:3px;height:6px;background:var(--amber);border-radius:2px;top:6px;left:50%;transform:translateX(-50%);animation:scroll-dot 2s ease-in-out infinite;}
+@keyframes scroll-dot{0%,100%{opacity:1;top:6px;}50%{opacity:0.3;top:16px;}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ── DEVICE MAP (scroll reveal behind hero) ── */
+.device-map-container{position:relative;overflow:hidden;padding:0 60px 80px;margin-top:-60px;}
+.device-map{position:relative;width:100%;max-width:1140px;margin:0 auto;height:420px;}
+.device-map svg{width:100%;height:100%;}
+.dm-line{stroke:var(--amber);stroke-width:1.5;opacity:0;stroke-dasharray:400;stroke-dashoffset:400;transition:opacity 0.6s,stroke-dashoffset 1.5s ease;}
+.dm-line.active{opacity:0.5;stroke-dashoffset:0;}
+.dm-node{opacity:0;transform:scale(0.5);transition:opacity 0.5s,transform 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+.dm-node.active{opacity:1;transform:scale(1);}
+.dm-badge{position:absolute;background:rgba(28,26,23,0.85);backdrop-filter:blur(12px);border:1px solid rgba(200,120,26,0.3);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--cream);opacity:0;transform:translateY(10px);transition:opacity 0.5s,transform 0.5s;pointer-events:none;white-space:nowrap;}
+.dm-badge.active{opacity:1;transform:translateY(0);}
+.dm-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px rgba(200,120,26,0.6);animation:blink-dot 2s ease-in-out infinite;}
+@keyframes blink-dot{0%,100%{box-shadow:0 0 8px rgba(200,120,26,0.6);}50%{box-shadow:0 0 16px rgba(200,120,26,1);}}
+
+/* ── POPULAR DEVICES ── */
+.popular-devices{padding:60px 60px 80px;position:relative;}
+.popular-devices .container{max-width:1140px;margin:0 auto;text-align:center;}
+.pd-heading{font-family:var(--fd);font-size:16px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-40);margin-bottom:40px;}
+.pd-grid{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;}
+.pd-item{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:default;transition:transform 0.2s;}
+.pd-item:hover{transform:translateY(-4px);}
+.pd-circle{width:72px;height:72px;border-radius:50%;background:rgba(200,120,26,0.08);border:1.5px solid rgba(200,120,26,0.2);display:flex;align-items:center;justify-content:center;transition:border-color 0.3s,background 0.3s;}
+.pd-item:hover .pd-circle{border-color:var(--amber);background:rgba(200,120,26,0.14);}
+.pd-name{font-size:11px;color:var(--ink-40);letter-spacing:0.02em;}
+
+/* ── FOMO TICKER ── */
+.fomo-ticker{background:var(--brick);padding:14px 0;overflow:hidden;position:relative;}
+.ticker-track{display:flex;gap:60px;animation:ticker 20s linear infinite;white-space:nowrap;}
+.ticker-item{font-size:13px;font-weight:500;letter-spacing:0.03em;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ticker-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── SECTIONS BASE ── */
+section{padding:120px 60px;position:relative;}
+.container{max-width:1140px;margin:0 auto;}
+.section-label{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:20px;}
+.section-h{font-family:var(--fd);font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-0.03em;line-height:0.95;margin-bottom:20px;}
+.section-h .dim{color:var(--ink-40);}
+.section-sub{font-size:17px;font-weight:300;color:var(--ink-20);line-height:1.7;max-width:560px;}
+
+/* section textures */
+.section-texture{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.section-texture .grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(200,120,26,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,120,26,0.025) 1px,transparent 1px);background-size:80px 80px;}
+.section-texture .gradient-orb{position:absolute;border-radius:50%;filter:blur(80px);}
+
+.floating-device{position:absolute;opacity:0.04;animation:float-device 20s ease-in-out infinite;}
+@keyframes float-device{0%,100%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-15px) rotate(2deg);}50%{transform:translateY(-8px) rotate(-1deg);}75%{transform:translateY(-20px) rotate(1.5deg);}}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+
+/* ── PAIN SECTION ── */
+#pain{background:linear-gradient(180deg,var(--ink) 0%,#1E1B17 100%);border-top:0.5px solid rgba(200,120,26,0.12);}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;border-radius:16px;overflow:hidden;}
+.pain-card{padding:40px 36px;position:relative;overflow:hidden;}
+.pain-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.4s;}
+.pain-card:hover::before{opacity:1;}
+.pc-energy{background:linear-gradient(135deg,#1E1B18 0%,#231E17 100%);}
+.pc-energy::before{background:radial-gradient(circle at 30% 50%,rgba(200,120,26,0.08),transparent 70%);}
+.pc-leak{background:linear-gradient(135deg,#1A1210 0%,#1F1412 100%);}
+.pc-leak::before{background:radial-gradient(circle at 70% 50%,rgba(184,75,43,0.1),transparent 70%);}
+.pc-chaos{background:linear-gradient(135deg,#181A1C 0%,#1C1E21 100%);}
+.pc-chaos::before{background:radial-gradient(circle at 30% 50%,rgba(107,116,128,0.08),transparent 70%);}
+.pc-sleep{background:linear-gradient(135deg,#101812 0%,#141C15 100%);}
+.pc-sleep::before{background:radial-gradient(circle at 70% 50%,rgba(45,107,74,0.08),transparent 70%);}
+.pain-img-wrap{aspect-ratio:16/10;border-radius:12px;overflow:hidden;margin-bottom:20px;border:0.5px solid rgba(200,120,26,0.15);background:#141210;}
+.pain-img{width:100%;height:100%;object-fit:cover;display:block;}
+.pain-icon{width:48px;height:48px;margin-bottom:24px;}
+.pain-title{font-family:var(--fd);font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;}
+.pain-body{font-size:14px;color:var(--ink-20);line-height:1.7;}
+.pain-badge{display:inline-block;margin-top:16px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.04em;}
+.pb-amber{background:var(--amber-bg);color:var(--amber-dk);}
+.pb-brick{background:var(--brick-bg);color:var(--brick-dk);}
+.pb-concrete{background:var(--concrete-bg);color:var(--concrete);}
+.pb-pine{background:var(--pine-bg);color:var(--pine-dk);}
+
+/* ── HOW IT WORKS ── */
+#how{background:linear-gradient(180deg,var(--ink-80) 0%,#2A2722 100%);}
+.steps-wrapper{margin-top:72px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;}
+.step-card{background:var(--ink);padding:40px 32px;position:relative;transition:background 0.3s;}
+.step-card:hover{background:#221F1B;}
+.step-num{font-family:var(--fn);font-size:72px;font-weight:800;color:rgba(200,120,26,0.12);line-height:1;margin-bottom:16px;letter-spacing:-0.04em;}
+.step-title{font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;}
+.step-body{font-size:14px;color:var(--ink-20);line-height:1.7;}
+.step-connector{position:absolute;top:50%;right:-1px;width:24px;height:2px;background:var(--amber);opacity:0.4;}
+.step-icon{margin-bottom:20px;}
+
+/* ── DASHBOARD + PHONE MOCKUP ── */
+#product{background:linear-gradient(180deg,var(--ink) 0%,#1A1815 100%);overflow:hidden;}
+.product-layout{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:start;margin-top:72px;}
+.mockup-shell{background:linear-gradient(135deg,#141210 0%,#181510 100%);border-radius:20px;border:1px solid rgba(200,120,26,0.15);padding:24px;position:relative;overflow:hidden;}
+.mockup-shell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:0.4;}
+.mockup-topbar{display:flex;align-items:center;gap:8px;margin-bottom:20px;padding-bottom:16px;border-bottom:0.5px solid rgba(200,120,26,0.1);}
+.m-dot{width:10px;height:10px;border-radius:50%;}
+.mockup-grid{display:grid;grid-template-columns:220px 1fr;gap:16px;}
+.m-sidebar{background:linear-gradient(180deg,#1A1714 0%,#1D1A15 100%);border-radius:12px;padding:16px;}
+.m-main{display:grid;gap:12px;}
+.m-toprow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.m-card{background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border-radius:12px;padding:16px;border:0.5px solid rgba(200,120,26,0.08);}
+.m-label{font-size:10px;color:var(--ink-40);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.m-value{font-family:var(--fn);font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;}
+.m-sub{font-size:11px;margin-top:4px;}
+.m-nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:13px;color:var(--ink-40);margin-bottom:4px;cursor:pointer;transition:all 0.2s;}
+.m-nav-item.active{background:rgba(200,120,26,0.12);color:var(--amber);}
+.m-nav-item:hover:not(.active){background:rgba(255,255,255,0.03);color:var(--ink-20);}
+.m-chart-area{background:linear-gradient(135deg,#1A1714 0%,#1E1B16 100%);border-radius:12px;padding:20px;border:0.5px solid rgba(200,120,26,0.08);}
+.m-chart-bars{display:flex;gap:8px;align-items:flex-end;height:80px;margin-top:12px;}
+.m-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.m-bar{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:opacity 0.2s;}
+.m-bar:hover{opacity:0.8;}
+.m-bar-lbl{font-size:9px;color:var(--ink-40);}
+.m-device-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);}
+.m-device-name{font-size:12px;color:var(--ink-20);}
+.m-toggle{width:32px;height:18px;border-radius:9px;position:relative;cursor:pointer;transition:background 0.2s;}
+.m-toggle.on{background:var(--amber);}
+.m-toggle.off{background:var(--ink-60);}
+.m-toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:white;top:2px;transition:left 0.2s;}
+.m-toggle.on::after{left:16px;}
+.m-toggle.off::after{left:2px;}
+.m-alert{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;background:rgba(184,75,43,0.12);border:0.5px solid rgba(184,75,43,0.25);margin-bottom:8px;}
+.m-alert-dot{width:6px;height:6px;border-radius:50%;background:var(--brick);flex-shrink:0;animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.m-alert-text{font-size:12px;color:var(--brick-lt);}
+.m-ai-bubble{background:rgba(200,120,26,0.08);border:0.5px solid rgba(200,120,26,0.2);border-radius:0 12px 12px 12px;padding:14px 16px;margin-top:8px;}
+.m-ai-tag{font-size:10px;color:var(--amber);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.m-ai-text{font-size:12px;color:var(--ink-20);line-height:1.6;}
+
+/* Phone mockup */
+.phone-mockup{position:relative;width:250px;margin:0 auto;}
+.phone-frame{background:#f5f4f0;border-radius:36px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(200,120,26,0.15);position:relative;overflow:hidden;}
+.phone-notch{width:100px;height:24px;background:#1C1A17;border-radius:0 0 16px 16px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
+.phone-screen{background:#FFFFFF;border-radius:26px;overflow:hidden;position:relative;}
+.ps-statusbar{height:44px;background:#FAFAF8;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:600;color:#1C1A17;}
+.ps-header{padding:16px 20px 12px;background:#FAFAF8;border-bottom:1px solid #EEECE6;}
+.ps-header-title{font-family:var(--fd);font-size:20px;font-weight:800;color:#1C1A17;letter-spacing:-0.02em;}
+.ps-header-sub{font-size:11px;color:#7A766D;margin-top:2px;}
+.ps-body{padding:16px;display:flex;flex-direction:column;gap:12px;background:#FAFAF8;}
+.ps-card{background:#FFFFFF;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border:1px solid #EEECE6;}
+.ps-card-label{font-size:9px;color:#7A766D;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;}
+.ps-card-val{font-family:var(--fn);font-size:18px;font-weight:700;color:#1C1A17;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ps-card-sub{font-size:10px;margin-top:2px;}
+.ps-device-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F2EFE8;}
+.ps-device-item:last-child{border-bottom:none;}
+.ps-dev-info{display:flex;align-items:center;gap:8px;}
+.ps-dev-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.ps-dev-name{font-size:12px;font-weight:500;color:#1C1A17;}
+.ps-dev-state{font-size:10px;color:#7A766D;}
+.ps-mini-toggle{width:36px;height:20px;border-radius:10px;position:relative;}
+.ps-mini-toggle.on{background:#C8781A;}
+.ps-mini-toggle.off{background:#DDD9D2;}
+.ps-mini-toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:white;top:2px;box-shadow:0 1px 2px rgba(0,0,0,0.15);}
+.ps-mini-toggle.on::after{left:18px;}
+.ps-mini-toggle.off::after{left:2px;}
+.ps-bottombar{height:48px;background:#FAFAF8;border-top:1px solid #EEECE6;display:flex;align-items:center;justify-content:space-around;padding:0 20px;}
+.ps-tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:#7A766D;}
+.ps-tab.active{color:#C8781A;}
+
+/* ── FEATURES ── */
+#features{background:linear-gradient(180deg,var(--ink-80) 0%,#2A2722 100%);}
+.features-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;margin-top:72px;border-radius:16px;overflow:hidden;}
+.feat-card{background:var(--ink);padding:40px 32px;transition:background 0.3s;}
+.feat-card:hover{background:#221F1B;}
+.feat-icon{width:56px;height:56px;margin-bottom:28px;}
+.feat-title{font-family:var(--fd);font-size:20px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;}
+.feat-body{font-size:14px;color:var(--ink-20);line-height:1.7;}
+.feat-list{list-style:none;margin-top:16px;}
+.feat-list li{font-size:13px;color:var(--ink-40);padding:5px 0;display:flex;align-items:center;gap:8px;}
+.feat-list li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+
+/* ── FOMO SECTION ── */
+#fomo{background:var(--brick-dk);position:relative;overflow:hidden;}
+#fomo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(184,75,43,0.3),transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(122,46,20,0.4),transparent 60%);}
+.fomo-inner{position:relative;z-index:1;}
+.fomo-headline{font-family:var(--fd);font-size:clamp(40px,6vw,80px);font-weight:800;letter-spacing:-0.03em;line-height:0.9;max-width:700px;}
+.fomo-scenarios{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px;}
+.fomo-card{background:rgba(0,0,0,0.25);backdrop-filter:blur(8px);border:0.5px solid rgba(240,196,176,0.15);border-radius:14px;padding:28px 24px;transition:border-color 0.3s,transform 0.2s;}
+.fomo-card:hover{border-color:rgba(240,196,176,0.35);transform:translateY(-2px);}
+.fomo-card-icon{margin-bottom:16px;}
+.fomo-card-title{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:8px;}
+.fomo-card-body{font-size:13px;color:rgba(250,240,235,0.75);line-height:1.7;}
+.fomo-cta-wrap{margin-top:48px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.fomo-cta{background:var(--cream);color:var(--brick-dk);padding:16px 40px;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--fd);text-decoration:none;transition:all 0.2s;}
+.fomo-cta:hover{background:#fff;transform:translateY(-2px);}
+.fomo-note{font-size:13px;color:rgba(250,240,235,0.5);}
+
+/* ── SOCIAL PROOF ── */
+#proof{background:linear-gradient(180deg,var(--ink) 0%,#1E1B17 100%);}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:64px;border-radius:16px;overflow:hidden;}
+.stat-block{background:linear-gradient(135deg,var(--ink-80) 0%,#333028 100%);padding:40px 32px;text-align:center;}
+.stat-num{font-family:var(--fn);font-size:52px;font-weight:700;letter-spacing:-0.03em;color:var(--amber);font-variant-numeric:tabular-nums;}
+.stat-label{font-size:13px;color:var(--ink-40);margin-top:6px;line-height:1.5;}
+.reviews-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:48px;}
+.review-card{background:linear-gradient(135deg,var(--ink-80) 0%,#333028 100%);border-radius:14px;padding:28px 24px;border:0.5px solid rgba(200,120,26,0.1);transition:border-color 0.3s,transform 0.2s;}
+.review-card:hover{border-color:rgba(200,120,26,0.25);transform:translateY(-2px);}
+.review-stars{color:var(--amber);font-size:14px;letter-spacing:2px;margin-bottom:12px;}
+.review-text{font-size:14px;color:var(--ink-20);line-height:1.7;font-style:italic;margin-bottom:16px;}
+.review-author{display:flex;align-items:center;gap:12px;}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:var(--amber-bg);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--amber-dk);}
+.review-name{font-size:13px;font-weight:500;color:var(--cream);}
+.review-meta{font-size:11px;color:var(--ink-40);}
+
+/* ── PRICING ── */
+#pricing{background:linear-gradient(180deg,var(--ink-80) 0%,#2A2722 100%);}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:64px;}
+.plan-card{background:linear-gradient(135deg,var(--ink) 0%,#201D19 100%);border-radius:16px;padding:36px 28px;border:1px solid rgba(200,120,26,0.08);position:relative;transition:border-color 0.3s,transform 0.2s;}
+.plan-card:hover{border-color:rgba(200,120,26,0.25);transform:translateY(-4px);}
+.plan-card.featured{border-color:var(--amber);background:linear-gradient(135deg,#1E1A14 0%,#231E16 100%);}
+.plan-popular{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--amber);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:5px 16px;border-radius:100px;}
+.plan-name{font-family:var(--fd);font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-40);margin-bottom:12px;}
+.plan-price{font-family:var(--fn);font-size:48px;font-weight:700;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;}
+.plan-price sup{font-size:20px;font-weight:500;vertical-align:top;margin-top:8px;display:inline-block;}
+.plan-period{font-size:13px;color:var(--ink-40);margin-top:4px;margin-bottom:24px;}
+.plan-features{list-style:none;margin-bottom:28px;}
+.plan-features li{padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:13px;color:var(--ink-20);display:flex;align-items:center;gap:10px;}
+.plan-features li:last-child{border-bottom:none;}
+.pf-check{width:16px;height:16px;flex-shrink:0;}
+.plan-btn{width:100%;padding:14px;border-radius:10px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;}
+.pb-amber{background:var(--amber);color:#fff;}
+.pb-amber:hover{background:var(--amber-mid);}
+.pb-ghost{background:transparent;color:var(--cream);border:1px solid rgba(200,120,26,0.3);}
+.pb-ghost:hover{border-color:var(--amber);color:var(--amber);}
+
+/* ── SHOWCASE IMAGE SECTIONS ── */
+.showcase-visual{position:relative;overflow:hidden;}
+.showcase-visual .container{max-width:1140px;margin:0 auto;}
+.showcase-img-wrap{position:relative;border-radius:20px;overflow:hidden;}
+.showcase-img-wrap img{width:100%;height:auto;display:block;}
+.showcase-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,var(--ink) 100%);pointer-events:none;}
+
+.visual-how{padding:0 60px 100px;position:relative;}
+.visual-how-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+.visual-how-img{border-radius:20px;overflow:hidden;position:relative;}
+.visual-how-img img{width:100%;height:auto;display:block;border-radius:20px;}
+.visual-how-text{padding:20px 0;}
+.visual-how-text .section-label{margin-bottom:16px;}
+.visual-how-text .section-h{margin-bottom:16px;}
+.visual-how-text .section-sub{max-width:420px;}
+
+.visual-room{padding:0 60px 40px;position:relative;}
+.visual-room-inner{max-width:1140px;margin:0 auto;border-radius:20px;overflow:hidden;position:relative;}
+.visual-room-inner img{width:100%;height:auto;display:block;}
+.visual-room-inner::after{content:'';position:absolute;inset:0;border-radius:20px;border:1px solid rgba(200,120,26,0.15);pointer-events:none;}
+.visual-room-caption{position:absolute;bottom:24px;left:24px;background:rgba(28,26,23,0.85);backdrop-filter:blur(12px);border:1px solid rgba(200,120,26,0.2);border-radius:12px;padding:12px 20px;color:var(--cream);font-size:14px;font-weight:500;}
+
+.cta-phone-img{position:relative;max-width:340px;margin:0 auto;margin-top:-20px;}
+.cta-phone-img img{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 60px rgba(200,120,26,0.15));}
+
+/* ── FINAL CTA ── */
+#cta{background:var(--ink);text-align:center;}
+.cta-inner{border-radius:24px;background:linear-gradient(135deg,#1A1612 0%,#1E1A14 100%);border:1px solid rgba(200,120,26,0.15);padding:100px 60px;position:relative;overflow:hidden;}
+.cta-inner::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:var(--amber);opacity:0.04;filter:blur(60px);top:50%;left:50%;transform:translate(-50%,-50%);}
+.cta-h{font-family:var(--fd);font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-0.03em;line-height:0.9;margin-bottom:24px;}
+.cta-h span{color:var(--amber);}
+.cta-sub{font-size:17px;font-weight:300;color:var(--ink-20);max-width:480px;margin:0 auto 40px;line-height:1.7;}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.urgency-note{margin-top:24px;font-size:13px;color:var(--brick-lt);display:flex;align-items:center;justify-content:center;gap:8px;}
+.urgency-dot{width:6px;height:6px;border-radius:50%;background:var(--brick);animation:blink 1.5s ease-in-out infinite;}
+
+/* ── FOOTER ── */
+footer{background:linear-gradient(180deg,var(--ink-80) 0%,#252320 100%);padding:48px 60px;border-top:0.5px solid rgba(200,120,26,0.1);}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:40px;}
+.footer-brand{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:12px;}
+.footer-brand span{color:var(--amber);}
+.footer-desc{font-size:13px;color:var(--ink-40);line-height:1.7;max-width:240px;}
+.footer-col h4{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-40);margin-bottom:16px;}
+.footer-col a{display:block;font-size:13px;color:var(--ink-20);text-decoration:none;margin-bottom:10px;transition:color 0.2s;}
+.footer-col a:hover{color:var(--amber);}
+.footer-bottom{margin-top:48px;padding-top:24px;border-top:0.5px solid rgba(200,120,26,0.1);display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:12px;color:var(--ink-40);}
+
+/* ── LANDING FINALE (closing image) ── */
+.landing-finale{padding:0 60px 80px;background:var(--ink);}
+.landing-finale-inner{max-width:1140px;margin:0 auto;border-radius:20px;overflow:hidden;border:0.5px solid rgba(200,120,26,0.12);}
+.landing-finale img{width:100%;height:auto;vertical-align:middle;display:block;}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:var(--ink);border:1px solid rgba(200,120,26,0.2);border-radius:20px;padding:48px 40px;max-width:560px;width:90%;max-height:85vh;overflow-y:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:rgba(200,120,26,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink-40);font-size:18px;transition:background 0.2s;}
+.modal-close:hover{background:rgba(200,120,26,0.15);color:var(--cream);}
+.modal-title{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px;}
+.modal-body{font-size:14px;color:var(--ink-20);line-height:1.8;}
+.modal-body h3{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--cream);margin:24px 0 12px;}
+.modal-body p{margin-bottom:12px;}
+.modal-body ul{margin:12px 0;padding-left:20px;}
+.modal-body ul li{margin-bottom:6px;color:var(--ink-20);}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  section{padding:80px 24px;}
+  #hero h1{font-size:clamp(48px,12vw,80px);}
+  .hero-sub{font-size:17px;}
+  .hero-tag{font-size:12px;}
+  .live-val{font-size:32px;}
+  .pain-grid,.steps-wrapper,.features-grid,.pricing-grid,.fomo-scenarios,.stats-row,.reviews-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .product-layout{grid-template-columns:1fr;}
+  .phone-mockup{margin-top:40px;}
+  .mockup-grid{grid-template-columns:1fr;}
+  .m-sidebar{display:none;}
+  .m-toprow{grid-template-columns:1fr 1fr;}
+  .cta-inner{padding:60px 24px;}
+  .landing-finale{padding:0 24px 60px;}
+  .device-map-container{padding:0 24px 60px;}
+  .device-map{height:300px;}
+  .popular-devices{padding:40px 24px 60px;}
+  .pd-grid{gap:16px;}
+  .pd-circle{width:56px;height:56px;}
+  .visual-how{padding:0 24px 60px;}
+  .visual-how-inner{grid-template-columns:1fr;}
+  .visual-room{padding:0 24px 40px;}
+  .cta-phone-img{max-width:260px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">DOMIND<span> AI</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#proof">Reviews</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Get early access</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-photo" aria-hidden="true"></div>
+  <div class="hero-bg-overlay" aria-hidden="true"></div>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-tag">AI Home Agent · Smart Home 2.0</div>
+    <h1>Your home<br><span class="amber">should run</span><br><span class="dim">itself.</span></h1>
+    <p class="hero-sub">Domind AI is the AI agent that does it for you. No apps. No setup. No manual control. Just a home that works.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-hero btn-primary">
+        <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="#fff"/><circle cx="8" cy="8" r="6.5" stroke="#fff" stroke-width="1.5" opacity=".4"/></svg>
+        Get early access
+      </a>
+      <a href="#product" class="btn-hero btn-ghost">See how it works →</a>
+    </div>
+    <div class="hero-live">
+      <div class="live-stat"><div class="live-val" id="c1">$0</div><div class="live-label">Saved today</div></div>
+      <div class="live-stat"><div class="live-val" id="c2">0</div><div class="live-label">Homes connected</div></div>
+      <div class="live-stat"><div class="live-val" id="c3">0%</div><div class="live-label">Avg. bill reduction</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll down</span><div class="scroll-mouse"></div></div>
+</section>
+
+<!-- DEVICE MAP (appears on scroll) -->
+<div class="device-map-container">
+  <div class="device-map" id="deviceMap">
+    <svg viewBox="0 0 1140 430" fill="none" preserveAspectRatio="xMidYMid meet">
+      <!-- Grid dots -->
+      <pattern id="mapDots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+        <circle cx="20" cy="20" r="1" fill="rgba(200,120,26,0.1)"/>
+      </pattern>
+      <rect width="1140" height="430" fill="url(#mapDots)"/>
+      
+      <!-- Connection lines -->
+      <line class="dm-line" x1="280" y1="100" x2="570" y2="210" data-delay="0"/>
+      <line class="dm-line" x1="570" y1="210" x2="860" y2="130" data-delay="200"/>
+      <line class="dm-line" x1="570" y1="210" x2="380" y2="310" data-delay="400"/>
+      <line class="dm-line" x1="570" y1="210" x2="760" y2="320" data-delay="600"/>
+      <line class="dm-line" x1="280" y1="100" x2="150" y2="240" data-delay="800"/>
+      <line class="dm-line" x1="860" y1="130" x2="980" y2="260" data-delay="1000"/>
+      <line class="dm-line" x1="380" y1="310" x2="570" y2="370" data-delay="1200"/>
+      <line class="dm-line" x1="760" y1="320" x2="570" y2="370" data-delay="1400"/>
+
+      <!-- Hub (center) -->
+      <g class="dm-node" data-delay="0">
+        <circle cx="570" cy="210" r="24" fill="rgba(200,120,26,0.15)" stroke="#C8781A" stroke-width="2"/>
+        <circle cx="570" cy="210" r="8" fill="#C8781A"/>
+        <circle cx="570" cy="210" r="36" fill="none" stroke="rgba(200,120,26,0.15)" stroke-width="1" stroke-dasharray="4 4">
+          <animateTransform attributeName="transform" type="rotate" values="0 570 210;360 570 210" dur="20s" repeatCount="indefinite"/>
+        </circle>
+        <text x="570" y="258" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#C8781A">HUB</text>
+      </g>
+
+      <!-- Thermostat -->
+      <g class="dm-node" data-delay="300">
+        <circle cx="280" cy="100" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <path d="M280 88v8l4 2" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="280" cy="100" r="6" fill="none" stroke="#C8781A" stroke-width="1" opacity="0.5"/>
+      </g>
+
+      <!-- Camera -->
+      <g class="dm-node" data-delay="500">
+        <circle cx="860" cy="130" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <rect x="851" y="124" width="18" height="12" rx="2" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+        <circle cx="860" cy="130" r="3" fill="#C8781A" opacity="0.6"/>
+      </g>
+
+      <!-- Leak sensor -->
+      <g class="dm-node" data-delay="700">
+        <circle cx="150" cy="240" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <path d="M150 230c0 0-6 6-6 10a6 6 0 0012 0c0-4-6-10-6-10z" stroke="#C8781A" stroke-width="1.5" fill="rgba(200,120,26,0.2)"/>
+      </g>
+
+      <!-- Smart plug -->
+      <g class="dm-node" data-delay="900">
+        <circle cx="380" cy="310" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <circle cx="380" cy="310" r="7" fill="none" stroke="#C8781A" stroke-width="1.5"/>
+        <line x1="376" y1="308" x2="376" y2="312" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="384" y1="308" x2="384" y2="312" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- Light -->
+      <g class="dm-node" data-delay="1100">
+        <circle cx="760" cy="320" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <path d="M760 310c-4 0-7 3-7 7 0 2.5 1.5 4.5 3.5 5.5v3h7v-3c2-1 3.5-3 3.5-5.5 0-4-3-7-7-7z" stroke="#C8781A" stroke-width="1.5" fill="rgba(200,120,26,0.2)"/>
+      </g>
+
+      <!-- Motion sensor -->
+      <g class="dm-node" data-delay="1300">
+        <circle cx="980" cy="260" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <path d="M972 260a8 8 0 0116 0" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M976 260a4 4 0 018 0" stroke="#C8781A" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <circle cx="980" cy="260" r="2" fill="#C8781A"/>
+      </g>
+
+      <!-- Boiler -->
+      <g class="dm-node" data-delay="1500">
+        <circle cx="570" cy="370" r="18" fill="rgba(200,120,26,0.1)" stroke="rgba(200,120,26,0.5)" stroke-width="1.5"/>
+        <rect x="562" y="362" width="16" height="16" rx="3" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+        <path d="M566 370h8M566 374h5" stroke="#C8781A" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+        <text x="570" y="400" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="rgba(200,120,26,0.6)">Boiler</text>
+      </g>
+    </svg>
+
+    <!-- Floating badges -->
+    <div class="dm-badge" style="top:55px;left:20%" data-delay="400">
+      <div class="dm-badge-dot"></div>
+      Thermostat detected
+    </div>
+    <div class="dm-badge" style="top:85px;right:15%" data-delay="600">
+      <div class="dm-badge-dot"></div>
+      Camera connected
+    </div>
+    <div class="dm-badge" style="top:52%;left:4%" data-delay="900">
+      <div class="dm-badge-dot"></div>
+      Leak sensor
+    </div>
+    <div class="dm-badge" style="bottom:85px;left:25%" data-delay="1000">
+      <div class="dm-badge-dot"></div>
+      Smart plug · 6 devices
+    </div>
+    <div class="dm-badge" style="bottom:60px;right:22%" data-delay="1200">
+      <div class="dm-badge-dot"></div>
+      Lighting · 4 zones
+    </div>
+    <div class="dm-badge" style="top:60%;right:4%" data-delay="1400">
+      <div class="dm-badge-dot"></div>
+      Motion sensor
+    </div>
+    <div class="dm-badge" style="bottom:30px;left:44%" data-delay="1600">
+      <div class="dm-badge-dot"></div>
+      Boiler · standby
+    </div>
+  </div>
+</div>
+
+<!-- POPULAR DEVICES -->
+<div class="popular-devices reveal">
+  <div class="container">
+    <div class="pd-heading">Discovered devices</div>
+    <div class="pd-grid">
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4v8l5 3" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="10" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+            <circle cx="16" cy="16" r="2" fill="#C8781A"/>
+          </svg>
+        </div>
+        <div class="pd-name">Thermostat</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 6c-5 0-9 4-9 9 0 3 1.5 5.5 4 7v3h10v-3c2.5-1.5 4-4 4-7 0-5-4-9-9-9z" stroke="#C8781A" stroke-width="1.5" fill="rgba(200,120,26,0.1)"/>
+            <line x1="13" y1="25" x2="19" y2="25" stroke="#C8781A" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pd-name">Lights</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="8" y="8" width="16" height="12" rx="2" stroke="#C8781A" stroke-width="1.5"/>
+            <circle cx="16" cy="14" r="4" stroke="#C8781A" stroke-width="1" fill="rgba(200,120,26,0.15)"/>
+            <circle cx="16" cy="14" r="1.5" fill="#C8781A"/>
+            <path d="M10 24h12" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pd-name">Camera</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 6c0 0-8 8-8 14a8 8 0 0016 0c0-6-8-14-8-14z" stroke="#C8781A" stroke-width="1.5" fill="rgba(200,120,26,0.1)"/>
+            <circle cx="16" cy="21" r="2" fill="#C8781A" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="pd-name">Water sensor</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="8" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+            <line x1="12" y1="14" x2="12" y2="18" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="20" y1="14" x2="20" y2="18" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pd-name">Smart plug</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="6" y="12" width="20" height="12" rx="3" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+            <path d="M10 8h12v4H10z" stroke="#C8781A" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M12 18h8M12 21h5" stroke="#C8781A" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="pd-name">Boiler</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M8 22a8 8 0 0116 0" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M12 22a4 4 0 018 0" stroke="#C8781A" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/>
+            <circle cx="16" cy="22" r="2" fill="#C8781A"/>
+            <path d="M16 10v4" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pd-name">Motion sensor</div>
+      </div>
+      <div class="pd-item">
+        <div class="pd-circle">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="11" y="6" width="10" height="20" rx="2" stroke="#C8781A" stroke-width="1.5" fill="none"/>
+            <path d="M14 22h4" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="13" y="10" width="6" height="8" rx="1" fill="rgba(200,120,26,0.15)"/>
+          </svg>
+        </div>
+        <div class="pd-name">Smart lock</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOMO TICKER -->
+<div class="fomo-ticker">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item"><span class="ticker-dot"></span>Alex from Austin saved $420 this month</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Leak sensor triggered in apt. 47 — disaster averted</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Maria connected 18 devices in 7 minutes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Off-peak rate activated — savings ×3.2</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Predictive maintenance: filter replaced before failure</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>James cut his bill by 31% in the first month</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>AI optimized 6 routines while owners slept</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Alex from Austin saved $420 this month</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Leak sensor triggered in apt. 47 — disaster averted</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Maria connected 18 devices in 7 minutes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Off-peak rate activated — savings ×3.2</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Predictive maintenance: filter replaced before failure</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>James cut his bill by 31% in the first month</span>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section id="pain">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb" style="width:400px;height:400px;background:rgba(200,120,26,0.03);top:10%;right:-100px;"></div>
+    <svg class="floating-device" style="top:15%;right:8%;animation-delay:-3s;" width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 6c-5 0-9 4-9 9 0 3 1.5 5.5 4 7v3h10v-3c2.5-1.5 4-4 4-7 0-5-4-9-9-9z" stroke="rgba(200,120,26,0.3)" stroke-width="1" fill="none"/></svg>
+    <svg class="floating-device" style="bottom:20%;left:5%;animation-delay:-8s;" width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="10" stroke="rgba(200,120,26,0.2)" stroke-width="1"/><path d="M18 10v6l4 2" stroke="rgba(200,120,26,0.2)" stroke-width="1" stroke-linecap="round"/></svg>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">What you get</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">Right now<br><span class="dim">in your home...</span></div>
+    </div>
+    <div class="pain-grid reveal reveal-delay-2">
+
+      <div class="pain-card pc-energy">
+        <div class="pain-img-wrap">
+          <img class="pain-img" src="42574.jpg" alt="Energy meter" loading="lazy">
+        </div>
+        <div class="pain-title">Lower bills automatically</div>
+        <div class="pain-body">Your water heater runs at peak hours. The AC cools an empty room. You're paying for nothing — Domind AI fixes this on autopilot.</div>
+        <span class="pain-badge pb-amber">+$240/mo overpaid</span>
+      </div>
+
+      <div class="pain-card pc-leak">
+        <div class="pain-img-wrap">
+          <img class="pain-img" src="546134(1).jpg" alt="Water leak" loading="lazy">
+        </div>
+        <div class="pain-title">Protection from leaks & breakdowns</div>
+        <div class="pain-body">Water damage costs $10,000+ on average. Domind AI detects leaks in seconds, shuts off the valve, and alerts you instantly.</div>
+        <span class="pain-badge pb-brick">$10k+ avg. damage</span>
+      </div>
+
+      <div class="pain-card pc-chaos">
+        <div class="pain-img-wrap">
+          <img class="pain-img" src="2c383243d5fcf246323be8221abdec65.jpg" alt="Unified control center" loading="lazy">
+        </div>
+        <div class="pain-title">Everything works together — finally</div>
+        <div class="pain-body">Apple Home, Google, Alexa, Tuya, Zigbee — every brand in its own silo. Domind AI unifies them all into one intelligent system.</div>
+        <span class="pain-badge pb-concrete">5+ apps → 1 brain</span>
+      </div>
+
+      <div class="pain-card pc-sleep">
+        <div class="pain-img-wrap">
+          <img class="pain-img" src="32c17ab116fd6cc29762399aabd199b1-Photoroom.png" alt="Comfort adaptation" loading="lazy">
+        </div>
+        <div class="pain-title">Comfort that adapts to you</div>
+        <div class="pain-body">Temperature, lighting, routines — Domind AI learns your patterns and adjusts everything automatically. No buttons. No schedules.</div>
+        <span class="pain-badge pb-pine">Learns in 7 days</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb" style="width:500px;height:500px;background:rgba(200,120,26,0.03);bottom:-150px;left:-150px;"></div>
+    <svg class="floating-device" style="top:10%;left:8%;animation-delay:-5s;" width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="6" y="10" width="24" height="16" rx="3" stroke="rgba(200,120,26,0.2)" stroke-width="1"/><path d="M14 18h8" stroke="rgba(200,120,26,0.15)" stroke-width="1" stroke-linecap="round"/></svg>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">How it works</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">Three steps<br><span class="dim">to a self-running home</span></div>
+    </div>
+    <div class="steps-wrapper reveal reveal-delay-2">
+
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <svg class="step-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="19" stroke="rgba(200,120,26,0.3)" stroke-width="1"/>
+          <path d="M12 20l5 5 11-11" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="step-title">Connect your devices</div>
+        <div class="step-body">Domind AI auto-discovers everything on your network — Matter, Apple Home, Google, Alexa, Tuya, Zigbee. No engineers. No wiring.</div>
+        <div class="step-connector"></div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <svg class="step-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="19" stroke="rgba(200,120,26,0.3)" stroke-width="1"/>
+          <path d="M20 10v4M20 26v4M10 20h4M26 20h4" stroke="rgba(200,120,26,0.4)" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="5" fill="rgba(200,120,26,0.15)" stroke="#C8781A" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="2" fill="#C8781A"/>
+        </svg>
+        <div class="step-title">Say what you want</div>
+        <div class="step-body">Chat, voice, or messenger — just tell Domind AI what you need. It learns your patterns and builds optimal routines automatically.</div>
+        <div class="step-connector"></div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <svg class="step-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="19" stroke="rgba(200,120,26,0.3)" stroke-width="1"/>
+          <path d="M14 28l-3 3M26 28l3 3" stroke="rgba(200,120,26,0.4)" stroke-width="1" stroke-linecap="round"/>
+          <rect x="11" y="12" width="18" height="16" rx="3" stroke="#C8781A" stroke-width="1.5"/>
+          <path d="M16 20h8M20 16v8" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="step-title">It gets better every day</div>
+        <div class="step-body">Domind AI learns and runs your home. Every day it gets smarter — adjusting comfort, cutting costs, preventing problems before they happen.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 3D HOUSE VISUAL -->
+<div class="visual-how reveal">
+  <div class="visual-how-inner">
+    <div class="visual-how-img">
+      <img src="smart-home-3d.png" alt="3D smart home model with connections" loading="lazy">
+    </div>
+    <div class="visual-how-text">
+      <div class="section-label">Infrastructure</div>
+      <div class="section-h">Your entire home<br><span class="dim">at a glance</span></div>
+      <p class="section-sub">Every device, every sensor, every connection — visualized in real time. See the full map of your home and respond instantly to any situation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MOCKUP -->
+<section id="product">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb" style="width:600px;height:600px;background:rgba(200,120,26,0.025);top:-200px;right:-200px;"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">Product</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">One dashboard<br><span class="dim">for your home</span></div>
+      <p class="section-sub" style="margin-top:16px;">Everything in one interface: device status, energy meters, AI suggestions, alerts and routines.</p>
+    </div>
+    <div class="product-layout reveal reveal-delay-2">
+      <!-- Desktop mockup -->
+      <div class="mockup-shell">
+        <div class="mockup-topbar">
+          <div class="m-dot" style="background:#B84B2B;"></div>
+          <div class="m-dot" style="background:#C8781A;"></div>
+          <div class="m-dot" style="background:#2D6B4A;"></div>
+          <div style="flex:1;text-align:center;font-size:12px;color:var(--ink-40);">domind.ai — Dashboard</div>
+        </div>
+        <div class="mockup-grid">
+          <div class="m-sidebar">
+            <div style="font-family:var(--fd);font-size:14px;font-weight:800;color:var(--cream);margin-bottom:20px;">DOMIND<span style="color:var(--amber);"> AI</span></div>
+            <div class="m-nav-item active">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="#C8781A"/><rect x="8" y="1" width="5" height="5" rx="1" fill="rgba(200,120,26,0.4)"/><rect x="1" y="8" width="5" height="5" rx="1" fill="rgba(200,120,26,0.4)"/><rect x="8" y="8" width="5" height="5" rx="1" fill="rgba(200,120,26,0.4)"/></svg>
+              Dashboard
+            </div>
+            <div class="m-nav-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 4.5H13l-3.7 2.7 1.4 4.3L7 10 3.3 12.5l1.4-4.3L1 5.5h4.5z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
+              Devices
+            </div>
+            <div class="m-nav-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10V6a5 5 0 0110 0v4M1 10h12" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+              Energy
+            </div>
+            <div class="m-nav-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2c0 0-4.5 4.5-4.5 7.5a4.5 4.5 0 009 0C11.5 6.5 7 2 7 2z" stroke="currentColor" stroke-width="1"/></svg>
+              Sensors
+            </div>
+            <div class="m-nav-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1"/><path d="M5 3V2a2 2 0 014 0v1" stroke="currentColor" stroke-width="1"/></svg>
+              Routines
+            </div>
+            <div style="margin-top:auto;padding-top:24px;">
+              <div class="m-alert">
+                <div class="m-alert-dot"></div>
+                <div class="m-alert-text">Alert: leak sensor triggered</div>
+              </div>
+            </div>
+          </div>
+          <div class="m-main">
+            <div class="m-toprow">
+              <div class="m-card">
+                <div class="m-label">Savings / month</div>
+                <div class="m-value" style="color:var(--amber);">$384</div>
+                <div class="m-sub" style="color:var(--pine);">↓ −31% vs Aug.</div>
+              </div>
+              <div class="m-card">
+                <div class="m-label">Devices online</div>
+                <div class="m-value" style="color:var(--cream);">24<span style="font-size:14px;color:var(--ink-40);font-family:var(--fn);">/26</span></div>
+                <div class="m-sub" style="color:var(--ink-40);">2 offline</div>
+              </div>
+              <div class="m-card">
+                <div class="m-label">Off-peak rate</div>
+                <div class="m-value" style="color:var(--pine);">✓ On</div>
+                <div class="m-sub" style="color:var(--pine);">until 07:00 · ×0.3 rate</div>
+              </div>
+            </div>
+            <div class="m-chart-area">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-size:12px;color:var(--ink-40);">Usage over 7 days</div>
+                <div style="font-size:10px;color:var(--amber);">↓ −18% vs last week</div>
+              </div>
+              <div class="m-chart-bars">
+                <div class="m-bar-wrap"><div class="m-bar" style="height:55%;background:rgba(107,116,128,0.4);"></div><div class="m-bar-lbl">Mon</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:82%;background:rgba(200,120,26,0.5);"></div><div class="m-bar-lbl">Tue</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:68%;background:rgba(107,116,128,0.4);"></div><div class="m-bar-lbl">Wed</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:92%;background:rgba(184,75,43,0.6);"></div><div class="m-bar-lbl">Thu</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:60%;background:rgba(107,116,128,0.4);"></div><div class="m-bar-lbl">Fri</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:34%;background:rgba(45,107,74,0.5);"></div><div class="m-bar-lbl">Sat</div></div>
+                <div class="m-bar-wrap"><div class="m-bar" style="height:28%;background:rgba(45,107,74,0.5);"></div><div class="m-bar-lbl">Sun</div></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="m-card">
+                <div class="m-label" style="margin-bottom:12px;">Devices</div>
+                <div class="m-device-row"><span class="m-device-name">Thermostat · 72°F</span><div class="m-toggle on"></div></div>
+                <div class="m-device-row"><span class="m-device-name">Lights · Living room</span><div class="m-toggle on"></div></div>
+                <div class="m-device-row"><span class="m-device-name">Water heater</span><div class="m-toggle off"></div></div>
+                <div class="m-device-row" style="border:none;"><span class="m-device-name">Smart plugs · 6 pcs</span><div class="m-toggle on"></div></div>
+              </div>
+              <div class="m-card">
+                <div class="m-label" style="margin-bottom:10px;">AI Agent</div>
+                <div class="m-ai-bubble">
+                  <div class="m-ai-tag">Domind AI</div>
+                  <div class="m-ai-text">Moving your water heater to 11:30 PM will save $18 this month. Enable off-peak routine automatically?</div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:10px;">
+                  <div style="padding:6px 12px;background:var(--amber);border-radius:6px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;">Yes, enable</div>
+                  <div style="padding:6px 12px;border:0.5px solid var(--ink-60);border-radius:6px;font-size:11px;color:var(--ink-40);cursor:pointer;">Later</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="phone-mockup reveal reveal-delay-3">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ps-statusbar">
+              <span>9:41</span>
+              <span style="display:flex;gap:4px;align-items:center;">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 7h2v3H1zM5 5h2v5H5zM9 3h2v7H9zM13 1h0" stroke="#1C1A17" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><rect x="0.5" y="1" width="13" height="8" rx="1.5" stroke="#1C1A17" stroke-width="1"/><rect x="14" y="3.5" width="1.5" height="3" rx="0.5" fill="#1C1A17"/><rect x="2" y="2.5" width="9" height="5" rx="0.5" fill="#2D6B4A"/></svg>
+              </span>
+            </div>
+            <div class="ps-header">
+              <div class="ps-header-title">Domind AI</div>
+              <div class="ps-header-sub">My home · 24 devices online</div>
+            </div>
+            <div class="ps-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div class="ps-card">
+                  <div class="ps-card-label">Savings</div>
+                  <div class="ps-card-val" style="color:#C8781A;">$384</div>
+                  <div class="ps-card-sub" style="color:#2D6B4A;">↓ −31%</div>
+                </div>
+                <div class="ps-card">
+                  <div class="ps-card-label">Usage</div>
+                  <div class="ps-card-val">128<span style="font-size:12px;color:#7A766D;"> kWh</span></div>
+                  <div class="ps-card-sub" style="color:#C8781A;">↓ −18%</div>
+                </div>
+              </div>
+              <div class="ps-card">
+                <div class="ps-card-label">Devices</div>
+                <div class="ps-device-item">
+                  <div class="ps-dev-info">
+                    <div class="ps-dev-icon" style="background:#FBF0DE;">🌡️</div>
+                    <div>
+                      <div class="ps-dev-name">Thermostat</div>
+                      <div class="ps-dev-state">72°F · Auto</div>
+                    </div>
+                  </div>
+                  <div class="ps-mini-toggle on"></div>
+                </div>
+                <div class="ps-device-item">
+                  <div class="ps-dev-info">
+                    <div class="ps-dev-icon" style="background:#FBF0DE;">💡</div>
+                    <div>
+                      <div class="ps-dev-name">Lights · Living room</div>
+                      <div class="ps-dev-state">80% · Warm</div>
+                    </div>
+                  </div>
+                  <div class="ps-mini-toggle on"></div>
+                </div>
+                <div class="ps-device-item">
+                  <div class="ps-dev-info">
+                    <div class="ps-dev-icon" style="background:#E8F5EF;">🔌</div>
+                    <div>
+                      <div class="ps-dev-name">Water heater</div>
+                      <div class="ps-dev-state">Standby · 11:30 PM</div>
+                    </div>
+                  </div>
+                  <div class="ps-mini-toggle off"></div>
+                </div>
+              </div>
+              <div class="ps-card" style="background:linear-gradient(135deg,#FFF8EE,#FFFFFF);border-color:#F5D9A8;">
+                <div style="font-size:9px;font-weight:700;color:#C8781A;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">AI Tip</div>
+                <div style="font-size:12px;color:#46433C;line-height:1.6;">Moving the water heater to off-peak hours will save $18 this month.</div>
+                <div style="display:flex;gap:6px;margin-top:8px;">
+                  <div style="padding:5px 12px;background:#C8781A;border-radius:6px;font-size:10px;font-weight:600;color:#fff;">Apply</div>
+                  <div style="padding:5px 12px;border:1px solid #DDD9D2;border-radius:6px;font-size:10px;color:#7A766D;">Later</div>
+                </div>
+              </div>
+            </div>
+            <div class="ps-bottombar">
+              <div class="ps-tab active">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l6-5 6 5v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="6" y="10" width="4" height="3" rx="0.5" stroke="currentColor" stroke-width="1"/></svg>
+                Home
+              </div>
+              <div class="ps-tab">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1"/></svg>
+                Devices
+              </div>
+              <div class="ps-tab">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v5l3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1"/></svg>
+                Energy
+              </div>
+              <div class="ps-tab">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1"/><path d="M3 14c0-3 2.5-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+                Profile
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb" style="width:400px;height:400px;background:rgba(200,120,26,0.03);top:50%;left:-100px;"></div>
+    <svg class="floating-device" style="bottom:10%;right:6%;animation-delay:-12s;" width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="8" stroke="rgba(200,120,26,0.15)" stroke-width="1"/><line x1="12" y1="14" x2="12" y2="18" stroke="rgba(200,120,26,0.15)" stroke-width="1" stroke-linecap="round"/><line x1="20" y1="14" x2="20" y2="18" stroke="rgba(200,120,26,0.15)" stroke-width="1" stroke-linecap="round"/></svg>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">Features</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">Everything<br><span class="dim">your home needs</span></div>
+    </div>
+    <div class="features-grid reveal reveal-delay-2">
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(200,120,26,0.08)"/>
+          <path d="M28 14c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M36 14l4 4-4 4" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M40 18h-6a10 10 0 00-6 18" stroke="rgba(200,120,26,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 3"/>
+          <circle cx="28" cy="28" r="3" fill="#C8781A"/>
+        </svg>
+        <div class="feat-title">Omnichannel AI agent</div>
+        <div class="feat-body">Chat, voice, messenger, mobile app, desktop — one AI agent everywhere. Always aware of your home's status.</div>
+        <ul class="feat-list">
+          <li>Natural voice commands</li>
+          <li>Real-time push notifications</li>
+          <li>Works offline without internet</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(200,120,26,0.08)"/>
+          <path d="M14 36V28l14-14 14 14v8" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="22" y="28" width="12" height="12" rx="1.5" stroke="#C8781A" stroke-width="1.5"/>
+          <path d="M28 28v12" stroke="rgba(200,120,26,0.4)" stroke-width="1" stroke-dasharray="2 2"/>
+        </svg>
+        <div class="feat-title">Works with your home</div>
+        <div class="feat-body">All brands in one interface. Matter, Apple Home, Google, Alexa, Tuya, Zigbee, Z-Wave — auto-discovery built in.</div>
+        <ul class="feat-list">
+          <li>200+ supported platforms</li>
+          <li>No engineer required</li>
+          <li>Group by room or routine</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(200,120,26,0.08)"/>
+          <path d="M20 38l-3 3M36 38l3 3" stroke="rgba(200,120,26,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="14" y="22" width="28" height="16" rx="3" stroke="#C8781A" stroke-width="1.5"/>
+          <path d="M22 30h12M28 26v8" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M20 14c0 0 4-4 8 0s8 0 8 0" stroke="rgba(200,120,26,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="feat-title">AI metering & routines</div>
+        <div class="feat-body">Real usage tracking per device. AI builds optimal routines: off-peak rates, away mode, peak hour avoidance.</div>
+        <ul class="feat-list">
+          <li>Per-minute consumption tracking</li>
+          <li>Auto-routines based on your schedule</li>
+          <li>Next month bill forecast</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(184,75,43,0.08)"/>
+          <path d="M28 16c0 0-10 10-10 17a10 10 0 0020 0c0-7-10-17-10-17z" stroke="#B84B2B" stroke-width="1.5" fill="rgba(184,75,43,0.1)"/>
+          <path d="M24 18l-6 8h6l-2 8 10-12H26l2-4z" fill="rgba(184,75,43,0.4)" stroke="#B84B2B" stroke-width="1"/>
+        </svg>
+        <div class="feat-title">Leak & flood protection</div>
+        <div class="feat-body">Water sensors + predictive analysis. The system shuts off the valve and calls emergency services — without your intervention.</div>
+        <ul class="feat-list">
+          <li>Auto water shutoff</li>
+          <li>Alert within 2 seconds</li>
+          <li>Auto emergency call</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(45,107,74,0.08)"/>
+          <circle cx="28" cy="28" r="12" stroke="#2D6B4A" stroke-width="1.5"/>
+          <path d="M28 20v8l5 3" stroke="#2D6B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 14a14 14 0 0114 0" stroke="rgba(45,107,74,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 22a14 14 0 010 12" stroke="rgba(45,107,74,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="feat-title">Predictive maintenance</div>
+        <div class="feat-body">AI analyzes data and warns about wear before breakdown. Replacing a filter on time is cheaper than fixing the whole system.</div>
+        <ul class="feat-list">
+          <li>40+ device parameters analyzed</li>
+          <li>Maintenance reminders with timing</li>
+          <li>Equipment reliability rating</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <svg class="feat-icon" viewBox="0 0 56 56" fill="none">
+          <rect width="56" height="56" rx="14" fill="rgba(200,120,26,0.08)"/>
+          <path d="M18 38V24l10-10 10 10v14" stroke="#C8781A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="23" y="30" width="10" height="8" rx="1.5" stroke="#C8781A" stroke-width="1.5"/>
+          <circle cx="42" cy="18" r="6" fill="#2D6B4A"/>
+          <path d="M39 18l2 2 4-4" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="feat-title">Smart recommendations</div>
+        <div class="feat-body">We recommend proven equipment through our partner program. Buy through us — get a discount and guaranteed compatibility.</div>
+        <ul class="feat-list">
+          <li>Compatible device catalog</li>
+          <li>Up to 25% discount for users</li>
+          <li>Turnkey installation by integrators</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ROOM VISUAL -->
+<div class="visual-room reveal">
+  <div class="visual-room-inner">
+    <img src="smart-room-ui.jpg" alt="Smart home controls in interior" loading="lazy">
+    <div class="visual-room-caption">Control devices right from your living space</div>
+  </div>
+</div>
+
+<!-- FOMO -->
+<section id="fomo">
+  <div class="container fomo-inner">
+    <div class="reveal">
+      <div class="section-label" style="color:rgba(250,240,235,0.6);">Core idea</div>
+    </div>
+    <div class="fomo-headline reveal reveal-delay-1">This is not a smart home.<br>This is a home with a brain.</div>
+    <div class="fomo-scenarios reveal reveal-delay-2">
+
+      <div class="fomo-card">
+        <svg class="fomo-card-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <path d="M22 6c0 0-12 12-12 20a12 12 0 0024 0c0-8-12-20-12-20z" fill="rgba(184,75,43,0.2)" stroke="rgba(240,196,176,0.5)" stroke-width="1.5"/>
+          <path d="M18 22l3 3 6-6" stroke="rgba(240,196,176,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="fomo-card-title">"Make my home cheaper to run"</div>
+        <div class="fomo-card-body">Done. Domind AI shifts heavy loads to off-peak hours, turns off what you're not using, and finds savings you didn't know existed.</div>
+      </div>
+
+      <div class="fomo-card">
+        <svg class="fomo-card-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="18" stroke="rgba(240,196,176,0.4)" stroke-width="1"/>
+          <path d="M22 12v10l7 4" stroke="rgba(240,196,176,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 34l5-5" stroke="rgba(240,196,176,0.4)" stroke-width="1" stroke-linecap="round" stroke-dasharray="2 2"/>
+        </svg>
+        <div class="fomo-card-title">"Keep it comfortable at night"</div>
+        <div class="fomo-card-body">Done. Temperature, lighting, noise — Domind AI adjusts everything based on your sleep patterns. No schedules to set.</div>
+      </div>
+
+      <div class="fomo-card">
+        <svg class="fomo-card-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <rect x="10" y="14" width="24" height="18" rx="3" stroke="rgba(240,196,176,0.5)" stroke-width="1.5"/>
+          <path d="M16 22h12M22 18v8" stroke="rgba(240,196,176,0.8)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M6 20l4 2-4 2" stroke="rgba(240,196,176,0.4)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M38 20l-4 2 4 2" stroke="rgba(240,196,176,0.4)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="fomo-card-title">"Fix issues before they happen"</div>
+        <div class="fomo-card-body">Done. Predictive analysis warns you 2–4 weeks before critical wear. Your furnace won't break in winter. Your AC won't die in summer.</div>
+      </div>
+
+      <div class="fomo-card">
+        <svg class="fomo-card-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <path d="M22 8l2.5 8H32l-6.5 5 2.5 8L22 25l-6 4 2.5-8L12 16h7.5z" stroke="rgba(240,196,176,0.6)" stroke-width="1.5" stroke-linejoin="round" fill="rgba(240,196,176,0.1)"/>
+          <circle cx="22" cy="22" r="3" fill="rgba(240,196,176,0.4)"/>
+        </svg>
+        <div class="fomo-card-title">You don't manage anything.</div>
+        <div class="fomo-card-body">Domind AI handles it all. Your only job is to live in your home — comfortably, safely, and without worrying about bills.</div>
+      </div>
+
+    </div>
+    <div class="fomo-cta-wrap reveal reveal-delay-3">
+      <a href="#cta" class="fomo-cta">Get early access →</a>
+      <div class="fomo-note">14-day free trial. Cancel anytime.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section id="proof">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb" style="width:500px;height:500px;background:rgba(200,120,26,0.025);top:-100px;left:50%;transform:translateX(-50%);"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">Results</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">Numbers<br><span class="dim">speak for themselves</span></div>
+    </div>
+    <div class="stats-row reveal reveal-delay-2">
+      <div class="stat-block"><div class="stat-num" data-target="14700">0</div><div class="stat-label">Homes managed by Domind AI</div></div>
+      <div class="stat-block"><div class="stat-num" data-target="31" data-suffix="%">0%</div><div class="stat-label">Average electricity bill reduction</div></div>
+      <div class="stat-block"><div class="stat-num" data-prefix="$" data-target="320">0</div><div class="stat-label">Average monthly savings per household</div></div>
+      <div class="stat-block"><div class="stat-num" data-target="98" data-suffix="%">0%</div><div class="stat-label">Emergencies prevented by sensors</div></div>
+    </div>
+    <div class="reviews-grid reveal reveal-delay-3">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Set it up in one evening. The AI suggested moving the water heater to off-peak — my bill dropped $280 in the first month. I literally just pressed OK."</div>
+        <div class="review-author"><div class="review-avatar">AK</div><div><div class="review-name">Alex K.</div><div class="review-meta">Austin, TX · Apple Home + Tuya · 24 devices</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Leak sensor triggered at 3 AM — the system shut off the water and texted me instantly. My downstairs neighbor never even knew. Could've been $15k+ in damage."</div>
+        <div class="review-author"><div class="review-avatar">MS</div><div><div class="review-name">Maria S.</div><div class="review-meta">Seattle · Smart apartment · 1,000 sq ft</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"I control everything by voice. I say 'warmer' — thermostat goes to 74. I leave home — it switches to eco mode automatically. Pure magic."</div>
+        <div class="review-author"><div class="review-avatar">JW</div><div><div class="review-name">James W.</div><div class="review-meta">Denver · tech enthusiast · Google Home</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-texture">
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal"><div class="section-label">Pricing</div></div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-h">Plans that<br><span class="dim">pay for themselves</span></div>
+      <p class="section-sub" style="margin-top:16px;">Average payback — 6 weeks. 7-day free trial included. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid reveal reveal-delay-2">
+
+      <div class="plan-card">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price"><sup>$</sup>49<span style="font-size:28px;font-weight:600;">.99</span></div>
+        <div class="plan-period">per month · billed monthly</div>
+        <ul class="plan-features">
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Unlimited devices</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI agents + voice control</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI rate optimization</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Leak & flood protection</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Predictive maintenance</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Priority support</li>
+        </ul>
+        <button class="plan-btn pb-ghost" onclick="openModal('signup')">Start 7-day free trial</button>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-popular">Best value</div>
+        <div class="plan-name">Quarterly</div>
+        <div class="plan-price"><sup>$</sup>119<span style="font-size:28px;font-weight:600;">.99</span></div>
+        <div class="plan-period">per quarter · $40/mo — save 20%</div>
+        <ul class="plan-features">
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Unlimited devices</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI agents + voice control</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI rate optimization</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Leak & flood protection</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Predictive maintenance</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Priority support</li>
+        </ul>
+        <button class="plan-btn pb-amber" onclick="openModal('signup')">Start 7-day free trial →</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Annual</div>
+        <div class="plan-price"><sup>$</sup>359<span style="font-size:28px;font-weight:600;">.99</span></div>
+        <div class="plan-period">per year · $30/mo — save 40%</div>
+        <ul class="plan-features">
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Unlimited devices</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI agents + voice control</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>AI rate optimization</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Leak & flood protection</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Predictive maintenance</li>
+          <li><svg class="pf-check" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(200,120,26,0.4)" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="#C8781A" stroke-width="1.2" stroke-linecap="round"/></svg>Priority support</li>
+        </ul>
+        <button class="plan-btn pb-ghost" onclick="openModal('signup')">Start 7-day free trial</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="cta-h">Turn your home into<br><span>a self-running system.</span></div>
+      <p class="cta-sub">14-day free trial. Setup in 7 minutes. No engineers. Cancel in one click.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-hero btn-primary" style="font-size:16px;padding:18px 44px;" onclick="event.preventDefault();openModal('signup')">Get early access →</a>
+        <a href="#" class="btn-hero btn-ghost" style="font-size:16px;padding:18px 44px;" onclick="event.preventDefault();openModal('demo')">Request a demo</a>
+      </div>
+      <div class="urgency-note">
+        <div class="urgency-dot"></div>
+        47 people are connecting their home right now
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="landing-finale reveal">
+  <div class="landing-finale-inner">
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">DOMIND<span> AI</span></div>
+        <div class="footer-desc">AI agent for your smart home. One brain for all your devices, energy, and routines.</div>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#product">Integrations</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how">Roadmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#" onclick="event.preventDefault();openModal('about')">About</a>
+        <a href="#" onclick="event.preventDefault();openModal('blog')">Blog</a>
+        <a href="#" onclick="event.preventDefault();openModal('partners')">Partners</a>
+        <a href="#" onclick="event.preventDefault();openModal('integrators')">Integrators</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#" onclick="event.preventDefault();openModal('docs')">Documentation</a>
+        <a href="mailto:support@domind.ai">Email support</a>
+        <a href="#" onclick="event.preventDefault();openModal('status')">System status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#" onclick="event.preventDefault();openModal('privacy')">Privacy Policy</a>
+        <a href="#" onclick="event.preventDefault();openModal('terms')">Terms of Use</a>
+        <a href="#" onclick="event.preventDefault();openModal('cookie')">Cookie Policy</a>
+        <a href="#" onclick="event.preventDefault();openModal('subscription')">Subscription Policy</a>
+        <a href="#" onclick="event.preventDefault();openModal('billing')">Billing Terms</a>
+        <a href="#" onclick="event.preventDefault();openModal('cancellation')">Cancellation Policy</a>
+        <a href="#" onclick="event.preventDefault();openModal('refund')">Refund Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Domind AI. All rights reserved.</div>
+      <div class="footer-copy">Made with love for smart homes</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Animated counters
+function animateCounter(el, target, prefix, suffix, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    const val = Math.floor(start);
+    el.textContent = (prefix||'') + val.toLocaleString('en-US') + (suffix||'');
+    if(start >= target) clearInterval(timer);
+  }, 16);
+}
+
+setTimeout(() => animateCounter(document.getElementById('c1'), 384, '$', '', 2000), 1200);
+setTimeout(() => animateCounter(document.getElementById('c2'), 14700, '', '', 2000), 1400);
+setTimeout(() => animateCounter(document.getElementById('c3'), 31, '', '%', 1800), 1600);
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const el = e.target;
+      animateCounter(el, parseInt(el.dataset.target), el.dataset.prefix || '', el.dataset.suffix || '', 1800);
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => statsObserver.observe(el));
+
+// Ticker duplicate
+const t = document.getElementById('ticker');
+t.innerHTML += t.innerHTML;
+
+// Toggle interaction
+document.querySelectorAll('.m-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('on');
+    toggle.classList.toggle('off');
+  });
+});
+
+// Device map scroll animation
+const mapObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const nodes = e.target.querySelectorAll('.dm-node');
+      const lines = e.target.querySelectorAll('.dm-line');
+      const badges = e.target.querySelectorAll('.dm-badge');
+      
+      lines.forEach(line => {
+        const delay = parseInt(line.dataset.delay) || 0;
+        setTimeout(() => line.classList.add('active'), delay);
+      });
+      nodes.forEach(node => {
+        const delay = parseInt(node.dataset.delay) || 0;
+        setTimeout(() => node.classList.add('active'), delay + 200);
+      });
+      badges.forEach(badge => {
+        const delay = parseInt(badge.dataset.delay) || 0;
+        setTimeout(() => badge.classList.add('active'), delay + 600);
+      });
+      
+      mapObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+mapObserver.observe(document.getElementById('deviceMap'));
+
+// Modal system
+const modalContent = {
+  signup: {
+    title: 'Get early access',
+    body: `<p>Start managing your smart home in 7 minutes. 14-day free trial, no credit card required.</p>
+    <h3>What you'll get:</h3>
+    <ul>
+      <li>Auto-discovery of all your devices</li>
+      <li>AI-powered energy optimization</li>
+      <li>Mobile app + voice control</li>
+      <li>Leak & flood protection</li>
+    </ul>
+    <p style="margin-top:24px;"><strong>Enter your email and we'll send you early access:</strong></p>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <input type="email" placeholder="your@email.com" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid rgba(200,120,26,0.3);background:var(--ink-80);color:var(--cream);font-family:var(--fb);font-size:14px;outline:none;">
+      <button style="padding:12px 24px;background:var(--amber);color:#fff;border:none;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;">Submit</button>
+    </div>`
+  },
+  demo: {
+    title: 'Request a demo',
+    body: `<p>We'll show you Domind AI in action — a personalized live demonstration.</p>
+    <h3>What we'll cover:</h3>
+    <ul>
+      <li>Real-time device connection</li>
+      <li>AI agent in action</li>
+      <li>Savings on a real home example</li>
+      <li>Routine and automation setup</li>
+    </ul>
+    <p style="margin-top:24px;"><strong>Leave your email and we'll reach out:</strong></p>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <input type="email" placeholder="your@email.com" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid rgba(200,120,26,0.3);background:var(--ink-80);color:var(--cream);font-family:var(--fb);font-size:14px;outline:none;">
+      <button style="padding:12px 24px;background:var(--amber);color:#fff;border:none;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;">Request</button>
+    </div>`
+  },
+  contact: {
+    title: 'Contact sales',
+    body: `<p>For the Estate plan, we'll design a custom solution tailored to your property.</p>
+    <h3>How we work:</h3>
+    <ul>
+      <li>Infrastructure audit</li>
+      <li>Equipment selection with compatibility guarantee</li>
+      <li>Turnkey installation by our integrators</li>
+      <li>Dedicated account manager and 24/7 SLA</li>
+    </ul>
+    <p style="margin-top:24px;"><strong>Get in touch:</strong></p>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <input type="email" placeholder="your@email.com" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid rgba(200,120,26,0.3);background:var(--ink-80);color:var(--cream);font-family:var(--fb);font-size:14px;outline:none;">
+      <button style="padding:12px 24px;background:var(--amber);color:#fff;border:none;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;">Send</button>
+    </div>`
+  },
+  privacy: {
+    title: 'Privacy Policy',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>1. Information collection</h3>
+    <p>Domind AI collects information necessary to provide services: email, smart home device data, and energy consumption statistics.</p>
+    <h3>2. Data usage</h3>
+    <p>Data is used exclusively for service operation, consumption optimization, and AI recommendation improvement. We do not share personal data with third parties.</p>
+    <h3>3. Data storage</h3>
+    <p>Data is stored on encrypted servers using AES-256. Retention period: subscription duration + 30 days after account deletion.</p>
+    <h3>4. User rights</h3>
+    <p>You can request access to, modification of, or deletion of your data via your account dashboard or by emailing privacy@domind.ai</p>`
+  },
+  terms: {
+    title: 'Terms of Use',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>1. Acceptance of terms</h3>
+    <p>By using Domind AI, you agree to these terms of use. The service is designed for smart home device management.</p>
+    <h3>2. Service description</h3>
+    <p>Domind AI provides a platform for smart home management, including device monitoring, AI optimization, and automation routines.</p>
+    <h3>3. Liability</h3>
+    <p>Domind AI is not responsible for third-party device operation. The service provides recommendations, but final decisions are made by the user.</p>
+    <h3>4. Intellectual property</h3>
+    <p>All rights to the Domind AI platform, including design, code, and algorithms, belong to Domind AI Inc.</p>`
+  },
+  cookie: {
+    title: 'Cookie Policy',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>What are cookies</h3>
+    <p>Cookies are small text files stored in your browser for proper website operation.</p>
+    <h3>Types of cookies we use</h3>
+    <ul>
+      <li><strong>Essential</strong> — for authentication and security</li>
+      <li><strong>Analytics</strong> — for service improvement</li>
+      <li><strong>Functional</strong> — for saving preferences</li>
+    </ul>
+    <h3>Managing cookies</h3>
+    <p>You can disable cookies in your browser settings. Some website features may become unavailable.</p>`
+  },
+  subscription: {
+    title: 'Subscription Policy',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>Pricing plans</h3>
+    <p>Domind AI offers one plan with three billing options: Monthly ($49.99/mo), Quarterly ($119.99/3 mo), and Annual ($359.99/yr).</p>
+    <h3>Payment</h3>
+    <p>All plans include a 7-day free trial. No credit card required to start.</p>
+    <h3>Plan changes</h3>
+    <p>You can change your plan at any time through your dashboard. Changes take effect at the start of the next billing cycle.</p>`
+  },
+  billing: {
+    title: 'Billing Terms',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>Billing period</h3>
+    <p>The billing period is 1 calendar month from the subscription activation date.</p>
+    <h3>Payment methods</h3>
+    <p>We accept credit and debit cards (Visa, MasterCard, Amex), PayPal, and bank transfers for enterprise clients.</p>
+    <h3>Receipts</h3>
+    <p>Payment receipts are sent via email after each charge and are available in your dashboard.</p>`
+  },
+  cancellation: {
+    title: 'Cancellation Policy',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>Cancellation</h3>
+    <p>You can cancel your subscription at any time through your dashboard or by emailing support@domind.ai.</p>
+    <h3>Cancellation terms</h3>
+    <ul>
+      <li>Service remains active until the end of the paid period</li>
+      <li>Data is retained for 30 days after cancellation</li>
+      <li>You can reactivate without data loss within 30 days</li>
+    </ul>
+    <h3>Equipment</h3>
+    <p>Devices purchased through our partner program remain your property.</p>`
+  },
+  refund: {
+    title: 'Refund Policy',
+    body: `<p>Last updated: March 27, 2026</p>
+    <h3>Refund conditions</h3>
+    <p>If you're not satisfied, you can request a full refund within the first 14 days after payment.</p>
+    <h3>Process</h3>
+    <ul>
+      <li>Send a request to refund@domind.ai</li>
+      <li>State the reason for refund (optional)</li>
+      <li>Refund is processed within 5–10 business days</li>
+    </ul>
+    <h3>Exceptions</h3>
+    <p>Refunds do not apply to integrator services and equipment purchased through our partner program.</p>`
+  },
+  about: {
+    title: 'About us',
+    body: `<p>Domind AI is a team of engineers and developers building a smart home that truly saves your time and money.</p>
+    <h3>Our mission</h3>
+    <p>Make smart homes accessible to everyone — no engineers, no complex setup, no dozen apps.</p>
+    <h3>Team</h3>
+    <p>50+ specialists in IoT, machine learning, and UX design building the future of home automation.</p>`
+  },
+  blog: {
+    title: 'Blog',
+    body: `<p>Coming soon. Articles about:</p>
+    <ul>
+      <li>Energy consumption optimization</li>
+      <li>Smart home device reviews</li>
+      <li>Real-world savings case studies</li>
+      <li>Domind AI news and updates</li>
+    </ul>
+    <p>Follow us on <a href="#" style="color:var(--amber);">Twitter</a> to stay updated.</p>`
+  },
+  partners: {
+    title: 'Partners',
+    body: `<p>Join the Domind AI partner program and earn with us.</p>
+    <h3>What we offer</h3>
+    <ul>
+      <li>Up to 30% commission on referred subscriptions</li>
+      <li>Marketing materials and support</li>
+      <li>Dedicated partner manager</li>
+      <li>Early access to new features</li>
+    </ul>
+    <p style="margin-top:16px;">Contact: <a href="mailto:partners@domind.ai" style="color:var(--amber);">partners@domind.ai</a></p>`
+  },
+  integrators: {
+    title: 'Integrators',
+    body: `<p>Become a certified Domind AI integrator and offer turnkey installations to your clients.</p>
+    <h3>Benefits</h3>
+    <ul>
+      <li>Free training and certification</li>
+      <li>Equipment at dealer prices</li>
+      <li>Installation leads from Domind AI</li>
+      <li>Technical support for integrators</li>
+    </ul>
+    <p style="margin-top:16px;">Contact: <a href="mailto:integrators@domind.ai" style="color:var(--amber);">integrators@domind.ai</a></p>`
+  },
+  docs: {
+    title: 'Documentation',
+    body: `<p>Full Domind AI documentation for users and developers.</p>
+    <h3>Sections</h3>
+    <ul>
+      <li><strong>Quick start</strong> — setup in 7 minutes</li>
+      <li><strong>Devices</strong> — supported platforms and configuration</li>
+      <li><strong>Routines</strong> — creating and managing automations</li>
+      <li><strong>API</strong> — REST API for developers</li>
+      <li><strong>FAQ</strong> — frequently asked questions</li>
+    </ul>
+    <p style="margin-top:16px;">Full docs at <a href="#" style="color:var(--amber);">docs.domind.ai</a></p>`
+  },
+  status: {
+    title: 'System Status',
+    body: `<h3>Current status</h3>
+    <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(45,107,74,0.1);border-radius:8px;border:1px solid rgba(45,107,74,0.2);margin-bottom:20px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#2D6B4A;"></div>
+      <span style="color:var(--pine-lt);font-weight:500;">All systems operational</span>
+    </div>
+    <h3>Services</h3>
+    <ul>
+      <li>Platform — <span style="color:var(--pine-lt);">✓ Operational</span></li>
+      <li>API — <span style="color:var(--pine-lt);">✓ Operational</span></li>
+      <li>Mobile app — <span style="color:var(--pine-lt);">✓ Operational</span></li>
+      <li>Voice agent — <span style="color:var(--pine-lt);">✓ Operational</span></li>
+      <li>IoT gateway — <span style="color:var(--pine-lt);">✓ Operational</span></li>
+    </ul>
+    <p style="margin-top:16px;">Uptime over the last 30 days: <strong style="color:var(--cream);">99.97%</strong></p>`
+  }
+};
+
+function openModal(key) {
+  const data = modalContent[key];
+  if (!data) return;
+  document.getElementById('modalTitle').textContent = data.title;
+  document.getElementById('modalBody').innerHTML = data.body;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
